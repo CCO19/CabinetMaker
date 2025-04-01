@@ -1,4 +1,4 @@
-# CabinetMaker
+# Cabinet Maker
 
 Script Powershell générant une interface graphique pour générer des archives Cabinet via **MakeCAB** de manière semi-automatisée.
 
