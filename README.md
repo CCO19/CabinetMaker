@@ -11,4 +11,4 @@ L'interface graphique permet :
 - Activation/Désactivation du découpage de l'archive Cabinet en volumes de taille choisie _(par défaut de **1 Mo** à **2Go**)_
 - Choisir le répertoire de sortie de l'archive Cabinet générée
 
-Le script est utilisable mais en toujours en version bêta. Il peut donc présenter des bugs, notement dans la gestion des caractères spéciaux.
+Le script est utilisable mais en toujours en version bêta. Il peut donc présenter des bugs, notamment dans la gestion des caractères spéciaux.
