@@ -144,7 +144,7 @@ $CurrentDir = [System.IO.Path]::GetDirectoryName($CurrentScriptPath)
 $WorkingDir = "$Env:SystemDrive\TEMP\src\"
 
 #Déclaration de la fonction de suppression des accents
-Function FormatText{Param ([String]$String)[Text.Encoding]::ASCII.GetString([Text.Encoding]::GetEncoding("Cyrillic").GetBytes($String))}
+#Function FormatText{Param ([String]$String)[Text.Encoding]::ASCII.GetString([Text.Encoding]::GetEncoding("Cyrillic").GetBytes($String))}
 
 #Déclaration de la fonction de réinitialisation des barres de progression et de statut
 Function BarsRefresh{
@@ -685,13 +685,13 @@ $button_ok_Click = {
   #Copie le fichiers sélectionnés via la listBox Sélection vers le dossier sources temporaire en supprimant les caractères spéciaux des noms de fichiers
   ForEach ($item in $listBox.Items){
     #Copie les fichiers présents dans la listbox sans les caractères spéciaux
-    $File = (FormatText([string]$File = ($item.Substring($item.LastIndexOf('\'), ($item.Length - $item.LastIndexOf('\')))) -replace '\\',''))
+    $File = ([string]$File = ($item.Substring($item.LastIndexOf('\'), ($item.Length - $item.LastIndexOf('\')))) -replace '\\','')
     If($File -ne '*'){
       Copy-Item -Path $item -Destination $($WorkingDir + $File) -Force}
       #Copie les arborscneces présentes dans la listbox, puis renomme les fichiers s'ils contiennent des caractères spéciaux
       Else{
         Copy-Item -Path $($item.Substring(0,$item.Length-2)) -Recurse -Force -Destination $WorkingDir
-        Get-ChildItem -path $item -recurse | Foreach-Object {If((FormatText([string]$_.name)) -ne $_.name){Rename-Item -Path $_.fullname -newname (FormatText([string]$_.name))}}
+        Get-ChildItem -path $item -recurse | Foreach-Object {If(([string]$_.name) -ne $_.name){Rename-Item -Path $_.fullname -newname ([string]$_.name)}}
     }
   }
   $progress.Value = 50
