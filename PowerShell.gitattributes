@@ -2,10 +2,10 @@
 
 # Source files
 # ============
-*.ps1      text eol=crlf
-*.ps1x     text eol=crlf
-*.psm1     text eol=crlf
-*.psd1     text eol=crlf
+*.ps1      text eol=crlf  working-tree-encoding=UTF-16
+*.ps1x     text eol=crlf  working-tree-encoding=UTF-16
+*.psm1     text eol=crlf  working-tree-encoding=UTF-16
+*.psd1     text eol=crlf  working-tree-encoding=UTF-16
 *.ps1xml   text eol=crlf
 *.pssc     text eol=crlf
 *.psrc     text eol=crlf
