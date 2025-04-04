@@ -189,8 +189,8 @@ Function Get-NextLevel{
 Function ddfTree{
   Param ($SubDDFTree)
   ForEach ($item in $SubDDFTree){
-    (".Set DestinationDir=$('"' + $item.FullName + '"')") -replace ([regex]::Escape($WorkingDir),"") | Add-Content -path $ddf -Encoding UTF8
-    (Get-ChildItem -LiteralPath $($item.FullName) -Force -File) | ForEach-Object{'"' + $_.FullName + '"' -replace ([regex]::Escape($WorkingDir),'')} | Add-Content -path $ddf -Encoding UTF8
+    (".Set DestinationDir=$('"' + $item.FullName + '"')") -replace ([regex]::Escape($WorkingDir),"") | Add-Content -path $ddf -Encoding Default
+    (Get-ChildItem -LiteralPath $($item.FullName) -Force -File) | ForEach-Object{'"' + $_.FullName + '"' -replace ([regex]::Escape($WorkingDir),'')} | Add-Content -path $ddf -Encoding Default
     $SubDDFTree=@(Get-ChildItem -LiteralPath $($item.FullName) -Force -Directory)
     ddfTree $SubDDFTree
   }
@@ -217,7 +217,7 @@ $SS64 = @"
 $ddf = "$CurrentDir\SS64.ddf"
 New-Item -Path $ddf –Type File -Force | Out-Null
 Set-ItemProperty -Path $ddf -Name Attributes -Value ([System.IO.FileAttributes]::Hidden) -Force | Out-Null
-Set-Content -Path $ddf -Value $SS64 -Encoding UTF8
+Set-Content -Path $ddf -Value $SS64 -Encoding Default
 
 #Activation des effets visuels
 [Windows.Forms.Application]::EnableVisualStyles()
@@ -677,7 +677,7 @@ $button_ok_Click = {
     $Sets = @(".Set Compress=$EnabComp",".Set MaxDiskSize=$Size",".Set DiskDirectoryTemplate=$DestRep",".Set CabinetNameTemplate=$CABName",".Set SourceDir=$WorkingDir",'.Set MaxErrors=1','.Set FolderFileCountThreshold=65535','.Set CabinetFileCountThreshold=65535','','',';*** Liste des fichiers à compresser dans le l''archive CAB','')
   }
   #Insertion des données de configuration au fichier SS64.ddf
-  $Sets | ForEach-Object{$_} | Add-Content -Path $ddf -Encoding UTF8
+  $Sets | ForEach-Object{$_} | Add-Content -Path $ddf -Encoding Default
   #Création du dossier sources temporaire où copier les données à archiver
   [void](New-Item $WorkingDir -ItemType Directory -Force -ErrorAction SilentlyContinue)
   #Masque le dossier sources temporaire
@@ -696,8 +696,8 @@ $button_ok_Click = {
   }
   $progress.Value = 50
   #Insertion des noms de fichiers contenus dans le dossier sources temporaire au fichier SS64.ddf
-  ".Set DestinationDir=" | Add-Content -path $ddf -Encoding UTF8
-  Get-ChildItem -Path $WorkingDir -File -Name -Force | ForEach-Object{'"' + $_ + '"'} | Add-Content -path $ddf -Encoding UTF8
+  ".Set DestinationDir=" | Add-Content -path $ddf -Encoding Default
+  Get-ChildItem -Path $WorkingDir -File -Name -Force | ForEach-Object{'"' + $_ + '"'} | Add-Content -path $ddf -Encoding Default
   $array=@(Get-ChildItem -LiteralPath $WorkingDir -Force -Directory)
   ddfTree $array
   #Création de l'archive Cabinet à l'aide du fichier de configuration SS64.ddf
@@ -731,7 +731,7 @@ $button_ok_Click = {
   }
   #Quoiqu'il arrive, on efface le contenu du fichier de configuration SS64.ddf et on le réinitialise
   Clear-Content "$CurrentDir\SS64.ddf"
-  Set-Content -Path $ddf -Value $SS64 -Encoding UTF8
+  Set-Content -Path $ddf -Value $SS64 -Encoding Default
   }
 }
 
