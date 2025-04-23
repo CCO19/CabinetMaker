@@ -1,6 +1,4 @@
-﻿#Auteur : Cedric COLLET
-
-#Vérifie la présence de "MakeCAB.exe" sous "C:\Windows\System32\"
+﻿#Vérifie la présence de "MakeCAB.exe" sous "C:\Windows\System32\"
 If(!(Test-Path -Path "$Env:SystemRoot\System32\makecab.exe")){[void][System.Windows.Forms.MessageBox]::Show("MakeCAB ne semble pas présent sur l'ordinateur.`nAssurez-vous de la présence de l'exécutable :`n`n""C:\Windows\System32\makecab.exe"""," Erreur","0","16"); Exit}
 
 ####################################
