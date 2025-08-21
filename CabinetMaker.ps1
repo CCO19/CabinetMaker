@@ -699,19 +699,24 @@ $button_ok_Click = {
   $array=@(Get-ChildItem -LiteralPath $WorkingDir -Force -Directory)
   ddfTree $array
   #Création de l'archive Cabinet à l'aide du fichier de configuration SS64.ddf
-  $alist = @('/F',"$CurrentDir\SS64.ddf")
-  $errorlevel = makecab $alist
-  #Si la création de l'archive CAB tombe en erreur, afficher un message d'erreur
-  #If($errorlevel -ne 0){
-  If($errorlevel -contains "ERROR"){
-    #Mise à jour de la bar de progression et de la bar de statut
-    $progress.State = 'Error'
-    $statusBar.Text = " Erreur lors de la création de l'archive"
-    [System.Windows.Forms.Application]::DoEvents()
-    Start-Sleep -Milliseconds 50
-    $progress.Value = 100
-    #Write-Host $errorlevel
-    [System.Windows.Forms.MessageBox]::Show($errorlevel," Erreur","0","16")
+  $output = makecab.exe /F "$CurrentDir\SS64.ddf" 2>&1
+  If ($LASTEXITCODE -ne 0) {
+      $progress.State = 'Error'
+      $statusBar.Text = " Erreur lors de la création de l'archive"
+      [System.Windows.Forms.Application]::DoEvents()
+      Start-Sleep -Milliseconds 50
+      $progress.Value = 100
+      $logPath = "$CurrentDir\CabinetMaker_Error_$(Get-Date -Format 'yyyy-MM-dd_HH.mm.ss').log"
+      $logContent = "Erreur survenue le $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss'):`n`n"
+      $logContent += ($output | Out-String) # Out-String garantit un formatage correct
+      Set-Content -Path $logPath -Value $logContent -Encoding UTF8
+      $summary = $output | Select-Object -Last 10
+      $summaryMessage = "Une erreur est survenue.`n`n"
+      $summaryMessage += "Résumé de l'erreur :`n"
+      $summaryMessage += "--------------------`n"
+      $summaryMessage += ($summary | Out-String)
+      $summaryMessage += "`nLes détails complets ont été enregistrés dans le fichier :`n$logPath"
+      [System.Windows.Forms.MessageBox]::Show($summaryMessage, "Erreur retournée par makecab.exe", "0", "16")
   }
   #Sinon...
   Else{
