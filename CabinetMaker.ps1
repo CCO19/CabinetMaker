@@ -194,6 +194,18 @@ Function ddfTree{
   }
 }
 
+#Créer des fichiers ".placeholder" dans les répertoires vides pour forcer MakeCAB à les inclure à l'archive Cabinet
+Function PreserveEmptyDirectory {
+    param(
+        [string]$RootPath
+    )
+    Get-ChildItem -Path $RootPath -Recurse -Directory | ForEach-Object {
+        if (-not (Get-ChildItem -Path $_.FullName -Force)) {
+            New-Item -Path $_.FullName -Name ".placeholder" -ItemType File -Force | Out-Null
+        }
+    }
+}
+
 #Format automatique des octets
 Function DisplayInBytes($num){
   $suffix = "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"
@@ -692,6 +704,7 @@ $button_ok_Click = {
         Get-ChildItem -path $item -recurse | Foreach-Object {If(([string]$_.name) -ne $_.name){Rename-Item -Path $_.fullname -newname ([string]$_.name)}}
     }
   }
+  PreserveEmptyDirectory -RootPath $WorkingDir
   $progress.Value = 50
   #Insertion des noms de fichiers contenus dans le dossier sources temporaire au fichier SS64.ddf
   ".Set DestinationDir=" | Add-Content -path $ddf -Encoding Default
