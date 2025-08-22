@@ -139,7 +139,7 @@ Add-Type -TypeDefinition $code -ReferencedAssemblies System.Windows.Forms, Syste
 #Déclaration des répertoires courant et de travail
 $CurrentScriptPath = $myInvocation.MyCommand.Definition
 $CurrentDir = [System.IO.Path]::GetDirectoryName($CurrentScriptPath)
-$WorkingDir = "$Env:SystemDrive\TEMP\src\"
+$WorkingDir = "$env:SystemDrive\TEMP\src\"
 
 #Déclaration de la fonction de suppression des accents
 #Function FormatText{Param ([String]$String)[Text.Encoding]::ASCII.GetString([Text.Encoding]::GetEncoding("Cyrillic").GetBytes($String))}
@@ -206,7 +206,7 @@ Function PreserveEmptyDirectory {
     }
 }
 
-#Format automatique des octets
+<#Format automatique des octets
 Function DisplayInBytes($num){
   $suffix = "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"
   $index = 0
@@ -215,7 +215,7 @@ Function DisplayInBytes($num){
     $index++
   } 
   "{0:N1} {1}" -f $num, $suffix[$index]
-}
+}#>
 
 #Création du fichier de configuration masqué
 $SS64 = @"
