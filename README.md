@@ -13,5 +13,4 @@ L'interface graphique permet :
 
 Le script est utilisable mais toujours en version bêta. Il peut donc présenter des bugs, notamment dans la gestion des caractères spéciaux.
 
-![image](https://github.com/user-attachments/assets/a991734f-0318-42fa-ba13-6cf3924b0e72)
-
+<img width="1445" height="768" alt="image" src="https://github.com/user-attachments/assets/30b4092f-e114-476b-b125-7530fca5b41d" />
